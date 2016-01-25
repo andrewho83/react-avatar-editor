@@ -12,14 +12,16 @@ var draggableEvents = {
             drag: 'onTouchMove',
             drop: 'onTouchEnd',
             move: 'onTouchMove',
-            up: 'onTouchUp'
+            up: 'onTouchUp',
+            mouseUp: 'onMouseUp'
         },
         native: {
             down: 'touchstart',
             drag: 'touchmove',
             drop: 'touchend',
             move: 'touchmove',
-            up: 'touchup'
+            up: 'touchup',
+            mouseUp: 'onMouseUp'
         }
     },
     desktop: {
@@ -55,6 +57,7 @@ var AvatarEditor = React.createClass({
         onLoadFailed: React.PropTypes.func,
         onUpload: React.PropTypes.func,
         onImageLoad: React.PropTypes.func,
+        onMouseUp: React.PropTypes.func
     },
 
     getDefaultProps() {
@@ -67,7 +70,8 @@ var AvatarEditor = React.createClass({
             style: {},
             onLoadFailed() {},
             onUpload() {},
-            onImageLoad() {}
+            onImageLoad() {},
+            onMouseUp() {}
         }
     },
 
@@ -253,6 +257,8 @@ var AvatarEditor = React.createClass({
         if (this.state.drag) {
             this.setState({drag: false});
         }
+
+        this.props.onMouseUp();
     },
 
     handleMouseMove(e) {
@@ -318,7 +324,7 @@ var AvatarEditor = React.createClass({
         var defaultStyle = {
             cursor: this.state.drag? 'grabbing' : 'grab'
         };
-    
+
         var attributes = {
             width: this.getDimensions().canvas.width,
             height: this.getDimensions().canvas.height,
